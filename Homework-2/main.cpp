@@ -1,0 +1,91 @@
+#include <iostream>
+#include <string>
+#include <string.h>
+
+class Person{
+    protected:
+        string name;
+        string surname;
+    public:
+        Person();
+        Person(string Name, string Surname);
+}
+
+void Person::Person(string Name, string Surname){
+    name = Name;
+    surname = Surname;
+}
+
+class Owner : public Person {
+    private:
+        int ownership;
+    public:
+        Owner(string Name, string Surname);
+}
+
+void Owner :: Owner(string Name, string Surname){
+    name = Name;
+    surname = Surname;
+}
+
+class Courier : public Person{
+    private:
+        string vehicle;
+}
+
+struct courNode{
+    Courier* data;
+    courNode* next;
+}
+
+class Business{
+    private:
+        string name;
+        string address;
+        string owner;
+        string owners [];
+        courNode* couriers;
+}
+
+int main(){
+    // Create owners of the business
+    //Constructor parameters: name, surname
+    Owner o1 = Owner("Owner_name1", "surname1");
+    Owner o2 = Owner("Owner_name2", "surname2");
+    Owner* owner_arr = new Owner[2];
+    owner_arr[0] = o1;
+    owner_arr[1] = o1;    
+
+    //Crete the business itself
+    //Constructor parameters: name, address, owner_array, number_of_owners
+    Business atlas = Business("Atlas", "Maslak Istanbul/Turkey", owner_arr, 2);
+    
+    // Print owner info to screen: name, surname, ownership
+    atlas.list_owners();
+
+    // Add new employees
+    // Constructor parameters: name, surname, vehicle_type
+    Courier c1 = Courier("Courier", "surname1", "car");
+    Courier c2 = Courier("Courier", "surname2", "motorcycle");
+    Courier c3 = Courier("Courier", "surname3", "motorcycle");    
+
+    atlas.hire_courier(c1);
+    atlas.hire_courier(c2);
+    atlas.hire_courier(c3);
+
+
+    // Print business info to screen
+    // Name, address, owners, couriers
+    atlas();
+
+    // Get courier with index 1 and remove it from the list/array
+    Courier cour = atlas[1];
+    atlas.fire_courier(cour);
+    
+    // Print remaining couriers
+    atlas.list_couriers();
+    
+    // Print current maximum shipment capacity
+    std::cout << atlas.calculate_shipment_capacity() << std::endl;
+    return 0;
+}
